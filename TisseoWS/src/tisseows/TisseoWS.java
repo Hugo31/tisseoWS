@@ -6,6 +6,9 @@
 
 package tisseows;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 /**
  *
  * @author Hugo
@@ -15,8 +18,10 @@ public class TisseoWS {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        
+        Request r = new Request();
+        System.out.println(r.request());
     }
     
 }
