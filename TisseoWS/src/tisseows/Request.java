@@ -26,14 +26,13 @@ public class Request {
     public String request() throws IOException, URISyntaxException{
         URI uri = new URIBuilder()
         .setScheme("http")
-        .setHost("www.google.com")
-        .setPath("/search")
-        .setParameter("q", "httpclient")
-        .setParameter("btnG", "Google Search")
-        .setParameter("aq", "f")
-        .setParameter("oq", "")
+        .setHost("pt.data.tisseo.fr")
+        .setPath("/placesList")
+        .setParameter("term", "Univ. Paul Sabatier (Ut3) (TOULOUSE)")
+        .setParameter("key", "a03561f2fd10641d96fb8188d209414d8")
+        .setParameter("displayOnlyStopAreas", "1")
         .build();
-        
+        //http://pt.data.tisseo.fr/placesList?term=cav&key=a03561f2fd10641d96fb8188d209414d8
         
         String s = ""; 
         CloseableHttpClient httpclient = HttpClients.createDefault();
