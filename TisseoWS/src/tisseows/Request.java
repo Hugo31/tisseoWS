@@ -23,16 +23,18 @@ import org.apache.http.util.EntityUtils;
  */
 public class Request {
     
-    public String request() throws IOException, URISyntaxException{
-        URI uri = new URIBuilder()
+    private URIBuilder urib;
+    
+    public Request(){
+        this.urib = new URIBuilder()
         .setScheme("http")
-        .setHost("pt.data.tisseo.fr")
-        .setPath("/placesList")
-        .setParameter("term", "Univ. Paul Sabatier (Ut3) (TOULOUSE)")
-        .setParameter("key", "a03561f2fd10641d96fb8188d209414d8")
-        .setParameter("displayOnlyStopAreas", "1")
-        .build();
-        //http://pt.data.tisseo.fr/placesList?term=cav&key=a03561f2fd10641d96fb8188d209414d8
+        .setHost("pt.data.tisseo.fr");
+    }
+    
+    public String request() throws IOException, URISyntaxException{
+        this.urib.setParameter("key", "a03561f2fd10641d96fb8188d209414d8");
+        this.urib.setParameter("format", "json");
+        URI uri = urib.build();
         
         String s = ""; 
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -47,5 +49,19 @@ public class Request {
             response.close();
         } 
         return s;
+    }
+    
+    public void resetURIB(){
+        this.urib = new URIBuilder()
+        .setScheme("http")
+        .setHost("pt.data.tisseo.fr");
+    }
+    
+    public void setPathURIB(String path){
+        this.urib.setPath(path);
+    }
+    
+    public void addParamURIB(String param, String value){
+        this.urib.setParameter(param, value);
     }
 }
