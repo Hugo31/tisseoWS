@@ -60,7 +60,7 @@ public class TisseoWS {
             
             nbDeparts = ((JSONArray)((JSONObject)array2.get("departures")).get("departure")).size();
             if(nbDeparts>1){
-                System.out.println(((JSONObject)((JSONObject)array2.get("departures")).get("stop")).get("name"));
+                System.out.println("Ligne " + (String) ((JSONObject)((JSONObject)((JSONArray)((JSONObject)array2.get("departures")).get("departure")).get(0)).get("line")).get("shortName") + " au départ de " + ((JSONObject)((JSONObject)array2.get("departures")).get("stop")).get("name"));
                 for(int j = 0 ; j < nbDeparts-1 ; j++){
                     dateTime = (String) ((JSONObject)((JSONArray)((JSONObject)array2.get("departures")).get("departure")).get(j)).get("dateTime");
                     shortName = (String) ((JSONObject)((JSONObject)((JSONArray)((JSONObject)array2.get("departures")).get("departure")).get(j)).get("line")).get("shortName");
