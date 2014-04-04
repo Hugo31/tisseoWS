@@ -39,14 +39,11 @@ public class Request {
         String s = ""; 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpget = new HttpGet(uri);
-        CloseableHttpResponse response = httpclient.execute(httpget);
-        try {
+        try (CloseableHttpResponse response = httpclient.execute(httpget)) {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 s = EntityUtils.toString(entity);
             }
-        } finally {
-            response.close();
         } 
         return s;
     }
