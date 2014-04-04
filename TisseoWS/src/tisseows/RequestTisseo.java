@@ -21,11 +21,11 @@ import org.apache.http.util.EntityUtils;
  *
  * @author Hugo
  */
-public class Request {
+public class RequestTisseo {
     
     private URIBuilder urib;
     
-    public Request(){
+    public RequestTisseo(){
         this.urib = new URIBuilder()
         .setScheme("http")
         .setHost("pt.data.tisseo.fr");
