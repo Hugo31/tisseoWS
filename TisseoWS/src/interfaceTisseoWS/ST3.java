@@ -237,7 +237,7 @@ public class ST3 extends javax.swing.JFrame {
 
                         int nbArrivees = (((JSONArray)((JSONObject)array2.get("physicalStops")).get("physicalStop")).size());
                         for(int j = 0 ; j < nbArrivees ; j++){
-                            
+                            // use /departureBoard
                         }
                     }
                 }
