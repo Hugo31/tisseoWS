@@ -72,7 +72,7 @@ public final class ST1 extends javax.swing.JFrame {
             nbDeparts = ((JSONArray)((JSONObject)array2.get("departures")).get("departure")).size();
             if(nbDeparts > 1){
                 departs.add(new Depart((JSONObject)array2.get("departures")));
-                listeLignes.addItem(departs.get(i).toString());
+                listeLignes.addItem(departs.get(departs.size()-1).toString());
             }
         }
     }

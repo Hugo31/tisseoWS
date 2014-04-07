@@ -47,6 +47,7 @@ public class InterfaceTisseoWS extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("TisseoWS");
 
         jButton1.setText("ST1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +203,8 @@ public class InterfaceTisseoWS extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        ST3 st3 = new ST3();
+        st3.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
