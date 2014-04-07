@@ -49,7 +49,7 @@ public class ST3 extends javax.swing.JFrame {
         return false;
     }
     public static boolean estLignePS(String str){
-        String[] words = {"B", "34", "2"};  
+        String[] words = {"B", "2", "2s", "34", "54", "56", "78", "78s", "79s", "81", "81s", "82", "88", "88s"};  
         return (Arrays.asList(words).contains(str));
    }
 
@@ -157,7 +157,7 @@ public class ST3 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
@@ -217,6 +217,7 @@ public class ST3 extends javax.swing.JFrame {
             r.setPathURIB("/stopPointsList");
             r.addParamURIB("srid", "4326");
             r.addParamURIB("displayLines", "1");
+            r.addParamURIB("sortByDistance", "1");
             
             String bbox = Double.toString(ax) + "," + Double.toString(ay) + "," + Double.toString(bx) + "," + Double.toString(by);
             r.addParamURIB("bbox", bbox);
@@ -267,7 +268,7 @@ public class ST3 extends javax.swing.JFrame {
                             }
                             j++;
                             if(j==nbArrivees){
-                                lblResultat.setText("Aucun ligne Tisséo ne déssert directement votre zone depuis Paul Sabatier, la distance \nest inférieure à 3 km donc nous vous conseillons d'utiliser le service VelôToulouse");
+                                lblResultat.setText("Aucun ligne Tisséo ne déssert directement votre zone depuis \nPaul Sabatier, la distance est inférieure à 3 km donc nous vous \nconseillons d'utiliser le service VelôToulouse");
                             }
                         }
                     }
