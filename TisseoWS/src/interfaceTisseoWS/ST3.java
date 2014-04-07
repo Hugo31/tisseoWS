@@ -8,6 +8,7 @@ package interfaceTisseoWS;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -32,6 +33,25 @@ public class ST3 extends javax.swing.JFrame {
     public ST3() {
         initComponents();
     }
+    
+    public boolean estDeservieDepuisPS(JSONArray dest){
+        String line;
+        for(int i = 0 ; i < dest.size() ; i++){
+            for(int j = 0 ; j < ((JSONArray)((JSONObject)dest.get(i)).get("line")).size() ; j++){
+               line =(String) ((JSONObject)((JSONArray)((JSONObject)dest.get(i)).get("line")).get(j)).get("shortName");
+                if(estLignePS(line)){
+                    lblResultat.setText("Votre zone est désservie directement depuis \nPaul Sabatier par la ligne " + line + ", utilisez le réseau Tisséo");
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    public static boolean estLignePS(String str){
+        String[] words = {"B", "34", "2"};  
+        return (Arrays.asList(words).contains(str));
+   }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,8 +68,9 @@ public class ST3 extends javax.swing.JFrame {
         listRes = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        lblResultat = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lblResultat = new javax.swing.JTextArea();
 
         setTitle("ST3");
 
@@ -86,9 +107,12 @@ public class ST3 extends javax.swing.JFrame {
 
         jLabel1.setText("Résultat sur le type de transport à prendre :");
 
-        lblResultat.setText(" ");
-
         jLabel2.setText("Veuillez entrer votre point de départ :");
+
+        lblResultat.setEditable(false);
+        lblResultat.setColumns(20);
+        lblResultat.setRows(5);
+        jScrollPane1.setViewportView(lblResultat);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,11 +136,11 @@ public class ST3 extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(listResultats, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 139, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblResultat, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 139, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,8 +156,8 @@ public class ST3 extends javax.swing.JFrame {
                     .addComponent(listResultats, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblResultat)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addContainerGap())
@@ -150,7 +174,7 @@ public class ST3 extends javax.swing.JFrame {
             
             r.setPathURIB("/placesList");
             r.addParamURIB("term", txtAdresse.getText());
-            r.addParamURIB("displayOnlyRoads", "1");
+            //r.addParamURIB("displayOnlyRoads", "1");
             
             Object obj = parser.parse(r.request());
             array = (JSONObject)obj;
@@ -183,7 +207,7 @@ public class ST3 extends javax.swing.JFrame {
         double by = Double.valueOf(y) +0.003;
         
         // x+-0.005  y+-0.003
-        boolean contientTisseo = false, contientVelib = false;
+        boolean contientTisseo, contientVelib = false;
         
         try {
             //recherche lignes tisseo dans la zone
@@ -192,6 +216,7 @@ public class ST3 extends javax.swing.JFrame {
             
             r.setPathURIB("/stopPointsList");
             r.addParamURIB("srid", "4326");
+            r.addParamURIB("displayLines", "1");
             
             String bbox = Double.toString(ax) + "," + Double.toString(ay) + "," + Double.toString(bx) + "," + Double.toString(by);
             r.addParamURIB("bbox", bbox);
@@ -227,17 +252,23 @@ public class ST3 extends javax.swing.JFrame {
             }
             else {
                 if(contientTisseo && !contientVelib){
-                    lblResultat.setText("Vous devez utiliser le réseau Tisséo");
+                    lblResultat.setText("Utilisez le réseau Tisséo");
                 }
                 else{
                     if(!contientTisseo && contientVelib){
-                        lblResultat.setText("Vous devez utiliser VelôToulouse");
+                        lblResultat.setText("Utilisez VelôToulouse");
                     }
                     else{
-
                         int nbArrivees = (((JSONArray)((JSONObject)array2.get("physicalStops")).get("physicalStop")).size());
-                        for(int j = 0 ; j < nbArrivees ; j++){
-                            // use /departureBoard
+                        int j = 0;
+                        while (j < nbArrivees){
+                            if(estDeservieDepuisPS(((JSONArray)((JSONObject)((JSONArray)((JSONObject)array2.get("physicalStops")).get("physicalStop")).get(j)).get("destinations")))){
+                                break;
+                            }
+                            j++;
+                            if(j==nbArrivees){
+                                lblResultat.setText("Aucun ligne Tisséo ne déssert directement votre zone depuis Paul Sabatier, la distance \nest inférieure à 3 km donc nous vous conseillons d'utiliser le service VelôToulouse");
+                            }
                         }
                     }
                 }
@@ -326,7 +357,8 @@ public class ST3 extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lblResultat;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea lblResultat;
     private javax.swing.JList listRes;
     private javax.swing.JScrollPane listResultats;
     private javax.swing.JTextField txtAdresse;
