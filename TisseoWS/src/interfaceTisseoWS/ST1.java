@@ -27,7 +27,7 @@ import tisseows.RequestTisseo;
 public final class ST1 extends javax.swing.JFrame {
 
     
-    private List<Depart> departs;
+    private final List<Depart> departs;
     /**
      * Creates new form ST1
      * @throws org.json.simple.parser.ParseException
@@ -43,14 +43,14 @@ public final class ST1 extends javax.swing.JFrame {
     public void init() throws ParseException, IOException, URISyntaxException{
         RequestTisseo r = new RequestTisseo();
         JSONParser parser = new JSONParser();
-        
+        //recherche du lieu Univ. Paul Sabatier
         r.setPathURIB("/placesList");
         r.addParamURIB("term", "Univ. Paul Sabatier (Ut3) (TOULOUSE)");
         r.addParamURIB("displayOnlyStopAreas", "1");
         
         Object obj = parser.parse(r.request());
         JSONObject array = (JSONObject)obj;
-
+        //recherche des arrêts à Paul Sabatier
         r.resetURIB();
         r.setPathURIB("/stopPointsList");
         r.addParamURIB("stopAreaId", (String) ((JSONObject)((JSONArray)((JSONObject)array.get("placesList")).get("place")).get(0)).get("id"));
@@ -62,7 +62,7 @@ public final class ST1 extends javax.swing.JFrame {
         int nbDeparts;
         Object obj2;
         JSONObject array2;
-        for(int i = 0 ; i < nbStops ; i++){
+        for(int i = 0 ; i < nbStops ; i++){//boucle sur tous les arrêts de Paul Sabatier
             r.resetURIB();
             r.setPathURIB("/departureBoard");
             r.addParamURIB("stopPointId", (String) ((JSONObject)((JSONArray)((JSONObject)array.get("physicalStops")).get("physicalStop")).get(i)).get("id"));
@@ -70,7 +70,7 @@ public final class ST1 extends javax.swing.JFrame {
             array2 = (JSONObject)obj2;
             
             nbDeparts = ((JSONArray)((JSONObject)array2.get("departures")).get("departure")).size();
-            if(nbDeparts > 1){
+            if(nbDeparts > 1){//si départ trouvé
                 departs.add(new Depart((JSONObject)array2.get("departures")));
                 listeLignes.addItem(departs.get(departs.size()-1).toString());
             }
@@ -160,7 +160,7 @@ public final class ST1 extends javax.swing.JFrame {
 
     private void listeLignesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_listeLignesItemStateChanged
         DefaultListModel lm = new DefaultListModel();
-        for(int i = 0 ; i < departs.get(listeLignes.getSelectedIndex()-1).nbDeparts() ; i++){
+        for(int i = 0 ; i < departs.get(listeLignes.getSelectedIndex()-1).nbDeparts() ; i++){//remplissage de la lsite avec les prochains départs
             lm.addElement(departs.get(listeLignes.getSelectedIndex()-1).toString(i));
         }
         

@@ -31,6 +31,12 @@ public class RequestJCDecaux {
         .setHost("api.jcdecaux.com");
     }
     
+    /**
+     * Envoi une requête au WS JCDecaux et récupère la réponse
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException 
+     */
     public String request() throws IOException, URISyntaxException{
         this.urib.setParameter("apiKey", "540dadb9d69e046c2fb68ace08faa0508ed59db7");
         this.urib.setParameter("contract", "Toulouse");

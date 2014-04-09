@@ -26,7 +26,7 @@ import tisseows.Station;
  */
 public final class ST4 extends javax.swing.JFrame {
 
-    private List<Station> stations;
+    private final List<Station> stations;
     /**
      * Creates new form ST4
      * @throws org.json.simple.parser.ParseException
@@ -188,6 +188,7 @@ public final class ST4 extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     new ST4().setVisible(true);

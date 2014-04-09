@@ -6,26 +6,17 @@ package interfaceTisseoWS;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import tisseows.DatabaseCouchDB;
-import tisseows.Depart;
 import tisseows.Lignes;
 import tisseows.RequestTisseo;
 
@@ -33,12 +24,15 @@ import tisseows.RequestTisseo;
  *
  * @author Kairi Takahashi
  */
-public class ST2 extends javax.swing.JFrame {
+public final class ST2 extends javax.swing.JFrame {
 
-    private List<Lignes> lignes;
+    private final List<Lignes> lignes;
     DatabaseCouchDB d;
     /**
      * Creates new form ST2
+     * @throws org.json.simple.parser.ParseException
+     * @throws java.io.IOException
+     * @throws java.net.URISyntaxException
      */
     public ST2() throws ParseException, IOException, URISyntaxException {
         initComponents();

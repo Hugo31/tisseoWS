@@ -25,7 +25,6 @@ import tisseows.RequestTisseo;
  */
 public class ST3 extends javax.swing.JFrame {
 
-    
     private JSONObject array;
     /**
      * Creates new form ST3
@@ -34,6 +33,11 @@ public class ST3 extends javax.swing.JFrame {
         initComponents();
     }
     
+    /**
+     * Indique si l'une des lignes qui passe par cet arrêt (format JSon) est une ligne au départ de l'université
+     * @param dest
+     * @return 
+     */
     public boolean estDeservieDepuisPS(JSONArray dest){
         String line;
         for(int i = 0 ; i < dest.size() ; i++){
@@ -48,10 +52,16 @@ public class ST3 extends javax.swing.JFrame {
         
         return false;
     }
+    
+    /**
+     * Indique si un nom de ligne donnée fait parti des lignes au départ de l'université
+     * @param str
+     * @return 
+     */
     public static boolean estLignePS(String str){
         String[] words = {"B", "2", "2s", "34", "54", "56", "78", "78s", "79s", "81", "81s", "82", "88", "88s"};  
         return (Arrays.asList(words).contains(str));
-   }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.

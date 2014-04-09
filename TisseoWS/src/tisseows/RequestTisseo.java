@@ -30,7 +30,12 @@ public class RequestTisseo {
         .setScheme("http")
         .setHost("pt.data.tisseo.fr");
     }
-    
+    /**
+     * Envoi une requête au WS Tisséo et récupère la réponse
+     * @return
+     * @throws IOException
+     * @throws URISyntaxException 
+     */
     public String request() throws IOException, URISyntaxException{
         this.urib.setParameter("key", "a03561f2fd10641d96fb8188d209414d8");
         this.urib.setParameter("format", "json");

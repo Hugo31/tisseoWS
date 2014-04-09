@@ -10,12 +10,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Permet de stocker un départ au format JSon et effectuer des get dessus
  * @author Hugo
  */
 public class Depart {
     
-    private JSONObject obj;
+    private final JSONObject obj;
     
     public Depart(JSONObject _obj){
         this.obj = _obj;
